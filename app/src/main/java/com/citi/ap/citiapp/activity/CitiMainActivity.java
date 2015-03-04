@@ -31,8 +31,8 @@ public class CitiMainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_citi_main);
-        Bundle extras = getIntent().getExtras();
-        LoginInfo loginInfo = (LoginInfo) extras.getSerializable("loginInfo");
+//        Bundle extras = getIntent().getExtras();
+//        LoginInfo loginInfo = (LoginInfo) extras.getSerializable("loginInfo");
         initView();
     }
 

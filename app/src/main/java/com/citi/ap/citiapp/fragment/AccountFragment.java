@@ -8,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.anypresence.anypresence_inc.citi.dao.LoginInfo;
 import com.anypresence.rails_droid.IAPFutureCallback;
 import com.anypresence.rails_droid.RemoteRequest;
 import com.anypresence.sdk.citi.models.Account;
+import com.anypresence.sdk.config.Config;
+import com.citi.ap.citiapp.CitiApplication;
+import com.citi.ap.citiapp.CitiConstants;
 import com.citi.ap.citiapp.R;
 
 import java.util.HashMap;
@@ -42,10 +46,17 @@ public class AccountFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //Account.queryInBackground(Account.Scopes.ALL, callback);
         Map<String,String> maps = new HashMap<>();
-        maps.put("token", "12345");
-        Account.queryInBackground(Account.Scopes.ALL, maps, callback);
+        Map<String,String> map2 = new HashMap<>();
+        maps.put("token", CitiApplication.getInstance().getClient().getToken());
+        map2.put("client_id", "anypresence");
+        RemoteRequest request = new RemoteRequest();
+        request.setContext(CitiApplication.getInstance().getClient());
+        request.setHeaders(maps);
+        request.setPath(CitiConstants.BACKEND_URL + "/accounts");
+        request.setParameters(map2);
+        request.setQuery(Account.Scopes.ALL);
+        Account.queryInBackground(request, Account.class, callback);
         return inflater.inflate(R.layout.account, container, false);
     }
     @Override

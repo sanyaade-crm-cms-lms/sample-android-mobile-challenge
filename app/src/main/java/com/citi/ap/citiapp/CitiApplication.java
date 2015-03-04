@@ -34,9 +34,9 @@ public class CitiApplication extends Application {
         instance = this;
         APSetup.setupOrm(getApplicationContext());
         APSetup.setup();
-        Config.getInstance().setBaseUrl(CitiConstants.BACKEND_URL);
-        Config.getInstance().setAppUrl(CitiConstants.BACKEND_URL);
-        Config.getInstance().setAuthUrl(CitiConstants.BACKEND_URL + "/user/login?client_id=anypresence");
+        //Config.getInstance().setBaseUrl(CitiConstants.BACKEND_URL);
+        //Config.getInstance().setAppUrl(CitiConstants.BACKEND_URL);
+        //Config.getInstance().setAuthUrl(CitiConstants.BACKEND_URL + "/user/login?client_id=anypresence");
         //Config.getInstance().setDeauthUrl(com.citi.ap.citiapp.CitiConstants.BACKEND_URL + "auth/signout");
         Config.getInstance().setStrictQueryFieldCheck(false);
     }
