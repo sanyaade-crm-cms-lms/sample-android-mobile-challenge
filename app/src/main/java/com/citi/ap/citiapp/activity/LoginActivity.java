@@ -117,9 +117,6 @@ public class LoginActivity extends Activity {
     private void loginSuccessful(LoginInfo client) {
         CitiApplication.getInstance().setClient(client);
         Intent i = new Intent(this, CitiMainActivity.class);
-//        Bundle args = new Bundle();
-//        args.putSerializable("loginInfo", CitiApplication.getInstance().getClient());
-//        i.putExtras(args);
         startActivity(i);
         LoginActivity.this.finish();
     }

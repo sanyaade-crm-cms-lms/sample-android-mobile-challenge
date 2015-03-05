@@ -47,14 +47,11 @@ public class AccountFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Map<String,String> maps = new HashMap<>();
-        Map<String,String> map2 = new HashMap<>();
         maps.put("token", CitiApplication.getInstance().getClient().getToken());
-        map2.put("client_id", "anypresence");
         RemoteRequest request = new RemoteRequest();
         request.setContext(CitiApplication.getInstance().getClient());
         request.setHeaders(maps);
         request.setPath(CitiConstants.BACKEND_URL + "/accounts");
-        request.setParameters(map2);
         request.setQuery(Account.Scopes.ALL);
         Account.queryInBackground(request, Account.class, callback);
         return inflater.inflate(R.layout.account, container, false);
