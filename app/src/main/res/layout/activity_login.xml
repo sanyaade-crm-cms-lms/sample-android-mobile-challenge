@@ -7,9 +7,10 @@
 
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:id="@+id/logo_citi"
+        android:src="@drawable/citi_v2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"/>
 
@@ -18,20 +19,20 @@
         android:layout_height="wrap_content"
         android:text="@string/powered"
         android:id="@+id/textView"
-        android:textColor="@color/abc_background_cache_hint_selector_material_light"
+        android:textColor="@android:color/white"
         android:layout_below="@+id/logo_citi"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/consumer"
-        android:textColor="@color/abc_background_cache_hint_selector_material_light"
+        android:textColor="@android:color/white"
         android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="33dp" />
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/logo_citi"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -41,7 +42,7 @@
         android:ems="10"
         android:background="@color/material_deep_teal_500"
         android:id="@+id/username"
-        android:layout_marginTop="103dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
