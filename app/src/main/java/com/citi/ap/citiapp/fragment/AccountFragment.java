@@ -1,21 +1,23 @@
 package com.citi.ap.citiapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import com.anypresence.anypresence_inc.citi.dao.LoginInfo;
 import com.anypresence.rails_droid.IAPFutureCallback;
 import com.anypresence.rails_droid.RemoteRequest;
 import com.anypresence.sdk.citi.models.Account;
-import com.anypresence.sdk.config.Config;
 import com.citi.ap.citiapp.CitiApplication;
 import com.citi.ap.citiapp.CitiConstants;
 import com.citi.ap.citiapp.R;
+import com.citi.ap.citiapp.activity.BalancesActivity;
+import com.citi.ap.citiapp.activity.TransactionsActivity;
+import com.citi.ap.citiapp.adapter.AccountAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,8 @@ import java.util.Map;
  * Created by daniel.pavon on 03/03/15.
  */
 public class AccountFragment extends Fragment{
+    private ListView accountList;
+    private AccountAdapter adapter;
 
     private IAPFutureCallback callback = new IAPFutureCallback() {
         @Override
@@ -54,13 +58,25 @@ public class AccountFragment extends Fragment{
         request.setPath(CitiConstants.BACKEND_URL + "/accounts");
         request.setQuery(Account.Scopes.ALL);
         Account.queryInBackground(request, Account.class, callback);
-        return inflater.inflate(R.layout.account, container, false);
+        return inflater.inflate(R.layout.fragment_account_list, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView tv=(TextView)getActivity().findViewById(R.id.textset);
-        tv.setText("Accounts");
+        accountList= (ListView) getView().findViewById(R.id.account_list_view);
+        adapter=new AccountAdapter(getActivity());
+        accountList.setAdapter(adapter);
+        adapter.setOnBalanceTransactionClickListener(new AccountAdapter.OnBalanceTransactionClickListener() {
+            @Override
+            public void onBalanceClicked(int position, com.citi.ap.citiapp.model.Account account) {
+                startActivity(new Intent(getActivity(), BalancesActivity.class));
+            }
+
+            @Override
+            public void onTransactionClicked(int position, com.citi.ap.citiapp.model.Account account) {
+                startActivity(new Intent(getActivity(), TransactionsActivity.class));
+            }
+        });
     }
 
 }
