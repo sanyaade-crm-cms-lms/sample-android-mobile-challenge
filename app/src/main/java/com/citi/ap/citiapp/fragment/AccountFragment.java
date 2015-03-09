@@ -51,8 +51,9 @@ public class AccountFragment extends Fragment{
         RemoteRequest request = new RemoteRequest();
         request.setContext(CitiApplication.getInstance().getClient());
         request.setHeaders(maps);
-        request.setPath(CitiConstants.BACKEND_URL + "/accounts");
+        request.setPath(CitiConstants.BACKEND_URL + "/" + CitiConstants.VERSION +  "/accounts");
         request.setQuery(Account.Scopes.ALL);
+        request.setRequestMethod("GET");
         Account.queryInBackground(request, Account.class, callback);
         return inflater.inflate(R.layout.account, container, false);
     }

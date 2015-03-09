@@ -97,7 +97,7 @@ public class LoginActivity extends Activity {
                 }
             });
         } else {
-            //mConnectionProgressDialog.show();
+            mConnectionProgressDialog.show();
             LoginInfo client = new LoginInfo();
             client.setUsername(usernameValue);
             client.setPassword(passwordValue);
@@ -106,7 +106,7 @@ public class LoginActivity extends Activity {
     }
 
     public void unsuccessfulLogin(final Throwable e) {
-        //mConnectionProgressDialog.dismiss();
+        mConnectionProgressDialog.dismiss();
         runOnUiThread(new Runnable() {
             public void run() {
                     Toast.makeText(LoginActivity.this, R.string.invalid_username_or_password, Toast.LENGTH_LONG).show();
@@ -115,6 +115,7 @@ public class LoginActivity extends Activity {
     }
 
     private void loginSuccessful(LoginInfo client) {
+        mConnectionProgressDialog.dismiss();
         CitiApplication.getInstance().setClient(client);
         Intent i = new Intent(this, CitiMainActivity.class);
         startActivity(i);
