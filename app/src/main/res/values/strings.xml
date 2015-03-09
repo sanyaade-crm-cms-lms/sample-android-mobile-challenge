@@ -14,4 +14,15 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="invalid_username_or_password">Invalid username or password</string>
     <string name="title_activity_citi_main">CitiMainActivity</string>
+
+    <string name="balances">Balances</string>
+    <string name="transactions">Transactions</string>
+
+    <!--Transaction List-->
+    <string name="transaction_id">Transaction ID: %1$s</string>
+    <string name="amount">Amount: %1$s</string>
+    <string name="pending_date">Pending Date: %1$s</string>
+    <string name="transaction_type">Transaction Type: %1$s</string>
+    <string name="transaction_description">Description: %1$s</string>
+    <string name="activity">Activity: %1$s</string>
 </resources>

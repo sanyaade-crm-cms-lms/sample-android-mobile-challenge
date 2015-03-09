@@ -23,6 +23,16 @@
             android:name=".activity.CitiMainActivity"
             android:label="@string/title_activity_citi_main" >
         </activity>
+
+        <activity
+            android:name=".activity.BalancesActivity"
+            android:label="@string/title_activity_citi_main" >
+        </activity>
+
+        <activity
+            android:name=".activity.TransactionsActivity"
+            android:label="@string/title_activity_citi_main" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent" android:padding="@dimen/buttons_margin"
+    android:layout_height="match_parent">
+    
+    <TextView
+        android:id="@+id/account_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginBottom="@dimen/buttons_margin" />
+    <TextView
+        android:id="@+id/account_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/account_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/balances_button"
+            android:layout_width="0dp" android:layout_weight="0.5"
+            android:layout_height="wrap_content" android:layout_marginRight="@dimen/buttons_margin" android:text="@string/balances" />
+
+        <Button
+            android:id="@+id/transactions_button" android:text="@string/transactions"
+            android:layout_width="0dp" android:layout_weight="0.5"
+            android:layout_height="wrap_content"  />
+        </LinearLayout>
+
+</LinearLayout>
