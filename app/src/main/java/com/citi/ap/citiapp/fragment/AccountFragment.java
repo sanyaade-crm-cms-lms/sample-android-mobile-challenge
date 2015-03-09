@@ -1,5 +1,6 @@
 package com.citi.ap.citiapp.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,9 @@ import com.citi.ap.citiapp.activity.BalancesActivity;
 import com.citi.ap.citiapp.activity.TransactionsActivity;
 import com.citi.ap.citiapp.adapter.AccountAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,8 @@ import java.util.Map;
  * Created by daniel.pavon on 03/03/15.
  */
 public class AccountFragment extends Fragment{
+    private final static String ACCOUNT_FRAGMENT_TAG = "ACCOUNT_FRAGMENT";
+    protected ProgressDialog mConnectionProgressDialog;
     private ListView accountList;
     private AccountAdapter adapter;
 
@@ -37,44 +42,57 @@ public class AccountFragment extends Fragment{
         }
 
         @Override
-        public void onSuccess(Object o) {
-            Log.d("ACCOUNT_TAG", o.toString());
+        public void onSuccess(final Object o) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mConnectionProgressDialog.dismiss();
+                    setupAccountView((List) o);
+                }
+            });
         }
 
         @Override
         public void onFailure(Throwable throwable) {
-            Log.e("ACCOUNT_TAG", throwable.toString());
+            Log.e(ACCOUNT_FRAGMENT_TAG, throwable.toString());
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mConnectionProgressDialog = new ProgressDialog(getActivity(), R.style.ProgressTheme);
+        mConnectionProgressDialog.setMessage(getString(R.string.please_wait));
+        mConnectionProgressDialog.setCancelable(false);
         Map<String,String> maps = new HashMap<>();
-        maps.put("token", CitiApplication.getInstance().getClient().getToken());
+        maps.put("Authorization", CitiApplication.getInstance().getClient().getToken());
         RemoteRequest request = new RemoteRequest();
         request.setContext(CitiApplication.getInstance().getClient());
         request.setHeaders(maps);
         request.setPath(CitiConstants.BACKEND_URL + "/" + CitiConstants.VERSION +  "/accounts");
         request.setQuery(Account.Scopes.ALL);
         request.setRequestMethod("GET");
+        mConnectionProgressDialog.show();
         Account.queryInBackground(request, Account.class, callback);
         return inflater.inflate(R.layout.fragment_account_list, container, false);
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    private void setupAccountView(List<Account> listAccounts) {
         accountList= (ListView) getView().findViewById(R.id.account_list_view);
-        adapter=new AccountAdapter(getActivity());
+        adapter=new AccountAdapter(getActivity(), listAccounts);
         accountList.setAdapter(adapter);
         adapter.setOnBalanceTransactionClickListener(new AccountAdapter.OnBalanceTransactionClickListener() {
             @Override
-            public void onBalanceClicked(int position, com.citi.ap.citiapp.model.Account account) {
+            public void onBalanceClicked(int position, Account account) {
                 startActivity(new Intent(getActivity(), BalancesActivity.class));
             }
 
             @Override
-            public void onTransactionClicked(int position, com.citi.ap.citiapp.model.Account account) {
+            public void onTransactionClicked(int position, Account account) {
                 startActivity(new Intent(getActivity(), TransactionsActivity.class));
             }
         });

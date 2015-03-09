@@ -25,4 +25,7 @@
     <string name="transaction_type">Transaction Type: %1$s</string>
     <string name="transaction_description">Description: %1$s</string>
     <string name="activity">Activity: %1$s</string>
+    <string name="account_id">Account ID:</string>
+    <string name="account_description">Account Description:</string>
+    <string name="account_number">Account Number:</string>
 </resources>

@@ -83,8 +83,7 @@ public class LoginActivity extends Activity {
     }
 
     public void callLogin(LoginInfo client) {
-//        client.saveInBackground(callback);
-        loginSuccessful(client);
+        client.saveInBackground(callback);
     }
 
     private void onLogin() {

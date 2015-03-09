@@ -18,15 +18,11 @@ import java.util.List;
 /**
  * Created by emi91_000 on 06/03/2015.
  */
-public class AccountAdapter extends ArrayAdapter<Account>{
+public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi.models.Account>{
     private OnBalanceTransactionClickListener onBalanceTransactionClickListener;
-    public AccountAdapter(Context context) {
+    public AccountAdapter(Context context, List<com.anypresence.sdk.citi.models.Account> listAccounts) {
         super(context, R.layout.item_account);
-        List<Account> accounts=new ArrayList<Account>();
-        for (Integer i = 0; i < 10; i++) {
-            accounts.add(new Account(i.toString(),"prod_desc"+i,i.toString()));
-        }
-        addAll(accounts);
+        addAll(listAccounts);
     }
 
         @Override
@@ -47,7 +43,7 @@ public class AccountAdapter extends ArrayAdapter<Account>{
             } else {
                 holder = (AccountHolder) view.getTag();
             }
-            final Account account = getItem(position);
+            final com.anypresence.sdk.citi.models.Account account = getItem(position);
             holder.balanceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,9 +58,9 @@ public class AccountAdapter extends ArrayAdapter<Account>{
                         onBalanceTransactionClickListener.onTransactionClicked(position,account);
                 }
             });
-            holder.id.setText(account.getId());
-            holder.accountDesc.setText(account.getProdDesc());
-            holder.accountNumber.setText(account.getAccountNumber());
+            holder.id.setText(account.getId().toString());
+            holder.accountDesc.setText(account.getProductDescription());
+            holder.accountNumber.setText(account.getDisplayAcctNo().toString());
             return view;
         }
 
@@ -78,8 +74,8 @@ public class AccountAdapter extends ArrayAdapter<Account>{
         }
 
     public interface OnBalanceTransactionClickListener{
-        public void onBalanceClicked(int position,Account account);
-        public void onTransactionClicked(int position,Account account);
+        public void onBalanceClicked(int position, com.anypresence.sdk.citi.models.Account account);
+        public void onTransactionClicked(int position, com.anypresence.sdk.citi.models.Account account);
     }
 
     public void setOnBalanceTransactionClickListener(OnBalanceTransactionClickListener onBalanceTransactionClickListener) {
