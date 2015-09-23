@@ -1,7 +1,7 @@
 package interfaces;
 
 //import com.anypresence.sdk.acl.IAuthenticatable;
-import com.anypresence.sdk.citi.models.LoginInfo;
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingLogin;
 
 /**
  * Copyright (c) 2015 AnyPresence, Inc. All rights reserved.
@@ -12,5 +12,5 @@ public interface LoginListener {
 
    // void onLoginSuccess(IAuthenticatable result);
     void onLoginFailed(boolean isConnected, Throwable ex);
-    void onLoginSuccess(LoginInfo client);
+    void onLoginSuccess(RetailBankingLogin client);
 }

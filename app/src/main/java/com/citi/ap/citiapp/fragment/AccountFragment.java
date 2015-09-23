@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.anypresence.rails_droid.IAPFutureCallback;
 import com.anypresence.rails_droid.RemoteRequest;
-import com.anypresence.sdk.citi.models.Account;
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount;
 import com.citi.ap.citiapp.CitiApplication;
 import com.citi.ap.citiapp.CitiConstants;
 import com.citi.ap.citiapp.R;
@@ -65,15 +65,15 @@ public class AccountFragment extends Fragment{
         mConnectionProgressDialog.setMessage(getString(R.string.please_wait));
         mConnectionProgressDialog.setCancelable(false);
         Map<String,String> maps = new HashMap<>();
-        maps.put("Authorization", CitiApplication.getInstance().getClient().getToken());
+        maps.put("Authorization", String.valueOf(CitiApplication.getInstance().getClient().getToken()));
         RemoteRequest request = new RemoteRequest();
         request.setContext(CitiApplication.getInstance().getClient());
         request.setHeaders(maps);
         request.setPath(CitiConstants.BACKEND_URL + "/" + CitiConstants.VERSION +  "/accounts");
-        request.setQuery(Account.Scopes.ALL);
+        request.setQuery(RetailBankingAccount.Scopes.ALL);
         request.setRequestMethod("GET");
         mConnectionProgressDialog.show();
-        Account.queryInBackground(request, Account.class, callback);
+        RetailBankingAccount.queryInBackground(request, RetailBankingAccount.class, callback);
         return inflater.inflate(R.layout.fragment_account_list, container, false);
     }
     @Override
@@ -81,18 +81,18 @@ public class AccountFragment extends Fragment{
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void setupAccountView(List<Account> listAccounts) {
+    private void setupAccountView(List<RetailBankingAccount> listAccounts) {
         accountList= (ListView) getView().findViewById(R.id.account_list_view);
         adapter=new AccountAdapter(getActivity(), listAccounts);
         accountList.setAdapter(adapter);
         adapter.setOnBalanceTransactionClickListener(new AccountAdapter.OnBalanceTransactionClickListener() {
             @Override
-            public void onBalanceClicked(int position, Account account) {
+            public void onBalanceClicked(int position, RetailBankingAccount account) {
                 startActivity(new Intent(getActivity(), BalancesActivity.class));
             }
 
             @Override
-            public void onTransactionClicked(int position, Account account) {
+            public void onTransactionClicked(int position, RetailBankingAccount account) {
                 startActivity(new Intent(getActivity(), TransactionsActivity.class));
             }
         });

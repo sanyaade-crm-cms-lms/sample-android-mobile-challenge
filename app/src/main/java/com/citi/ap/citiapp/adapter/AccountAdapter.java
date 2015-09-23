@@ -18,9 +18,9 @@ import java.util.List;
 /**
  * Created by emi91_000 on 06/03/2015.
  */
-public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi.models.Account>{
+public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount>{
     private OnBalanceTransactionClickListener onBalanceTransactionClickListener;
-    public AccountAdapter(Context context, List<com.anypresence.sdk.citi.models.Account> listAccounts) {
+    public AccountAdapter(Context context, List<com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount> listAccounts) {
         super(context, R.layout.item_account);
         addAll(listAccounts);
     }
@@ -43,7 +43,7 @@ public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi.models
             } else {
                 holder = (AccountHolder) view.getTag();
             }
-            final com.anypresence.sdk.citi.models.Account account = getItem(position);
+            final com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount account = getItem(position);
             holder.balanceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,8 +74,8 @@ public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi.models
         }
 
     public interface OnBalanceTransactionClickListener{
-        public void onBalanceClicked(int position, com.anypresence.sdk.citi.models.Account account);
-        public void onTransactionClicked(int position, com.anypresence.sdk.citi.models.Account account);
+        public void onBalanceClicked(int position, com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount account);
+        public void onTransactionClicked(int position, com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount account);
     }
 
     public void setOnBalanceTransactionClickListener(OnBalanceTransactionClickListener onBalanceTransactionClickListener) {

@@ -13,9 +13,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anypresence.rails_droid.IAPFutureCallback;
-import com.anypresence.sdk.citi.models.LoginInfo;
+import com.anypresence.rails_droid.RemoteRailsConfig;
+import com.anypresence.rails_droid.RemoteRequest;
+import com.anypresence.rails_droid.http.RequestMethod;
+import com.anypresence.rails_droid.APFutureCallback;
+import com.anypresence.rails_droid.IAPFutureCallback;
+import com.anypresence.rails_droid.RemoteObject;
+import com.anypresence.rails_droid.RemoteRequest;
+import com.anypresence.rails_droid.RemoteRequestException;
+import com.anypresence.rails_droid.RemoteRequestResult;
+import com.anypresence.sdk.callbacks.APCallback;
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingLogin;
+import com.anypresence.sdk.http.HttpAdapter;
 import com.citi.ap.citiapp.CitiApplication;
 import com.citi.ap.citiapp.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -48,16 +65,16 @@ public class LoginActivity extends Activity {
 
     };
 
-    private IAPFutureCallback callback = new IAPFutureCallback() {
+    private APFutureCallback callback = new APFutureCallback<RetailBankingLogin>() {
         @Override
-        public void finished(Object object, Throwable ex) {
+        public void finished(RetailBankingLogin object, Throwable ex) {
             Log.d(LOGIN_ACTIVITY_TAG, object.toString());
         }
 
         @Override
-        public void onSuccess(Object o) {
+        public void onSuccess(RetailBankingLogin o) {
             Log.d(LOGIN_ACTIVITY_TAG, o.toString());
-            loginSuccessful((LoginInfo)o);
+            loginSuccessful((RetailBankingLogin)o);
         }
 
         @Override
@@ -82,7 +99,7 @@ public class LoginActivity extends Activity {
         this.findViewById(R.id.login_btn).setOnClickListener(onSignInClick);
     }
 
-    public void callLogin(LoginInfo client) {
+    public void callLogin(RetailBankingLogin client) {
         client.saveInBackground(callback);
     }
 
@@ -98,10 +115,29 @@ public class LoginActivity extends Activity {
             });
         } else {
             mConnectionProgressDialog.show();
-            LoginInfo client = new LoginInfo();
-            client.setUsername(usernameValue);
-            client.setPassword(passwordValue);
-            callLogin(client);
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("client_id", "anypresence");
+            RemoteRequest request = new RemoteRequest();
+            request.setContext(new RetailBankingLogin());
+            request.setParameters(parameters);
+            request.setPath("http://citimobilechallenge.anypresenceapp.com/retailbanking/v1/login");
+            request.setQuery(RetailBankingLogin.Scopes.ALL);
+            request.setRequestMethod("POST");
+
+            JSONObject payload = new JSONObject();
+            try {
+                payload.put("username", usernameValue);
+                payload.put("password", passwordValue);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            request.setPayload(payload.toString());
+            RemoteRequestResult<RetailBankingLogin> result = new RemoteRequestResult<>(RetailBankingLogin.class);
+            try {
+                RemoteObject.requestInBackground(RetailBankingLogin.class, "", request, result, callback);
+            } catch (RemoteRequestException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -114,7 +150,7 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void loginSuccessful(LoginInfo client) {
+    private void loginSuccessful(RetailBankingLogin client) {
         mConnectionProgressDialog.dismiss();
         CitiApplication.getInstance().setClient(client);
         Intent i = new Intent(this, CitiMainActivity.class);

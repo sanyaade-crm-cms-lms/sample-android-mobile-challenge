@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.anypresence.sdk.citi.models.LoginInfo;
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingLogin;
 import com.citi.ap.citiapp.R;
 import com.citi.ap.citiapp.fragment.BaseContainerFragment;
 import com.citi.ap.citiapp.fragment.container.Tab1Container;
