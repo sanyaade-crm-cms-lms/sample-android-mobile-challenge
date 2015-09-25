@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
     protected ProgressDialog mConnectionProgressDialog;
     private TextView username;
     private TextView password;
-    private EditText clientId;
+    private TextView clientId;
     private TextView.OnEditorActionListener passwordActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -93,8 +93,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
-        clientId = (EditText) findViewById(R.id.client_id_edt);
-        clientId.setEnabled(false);
+        clientId = (TextView) findViewById(R.id.client_id_edt);
         password.setOnEditorActionListener(passwordActionListener);
         this.findViewById(R.id.login_btn).setOnClickListener(onSignInClick);
     }
@@ -116,7 +115,7 @@ public class LoginActivity extends Activity {
         } else {
             mConnectionProgressDialog.show();
             Map<String, String> parameters = new HashMap<>();
-            parameters.put("client_id", "anypresence");
+            parameters.put("client_id", clientId.getText().toString());
             RemoteRequest request = new RemoteRequest();
             request.setContext(new RetailBankingLogin());
             request.setParameters(parameters);
@@ -152,6 +151,7 @@ public class LoginActivity extends Activity {
 
     private void loginSuccessful(RetailBankingLogin client) {
         mConnectionProgressDialog.dismiss();
+        client.setPassword(clientId.getText().toString());
         CitiApplication.getInstance().setClient(client);
         Intent i = new Intent(this, CitiMainActivity.class);
         startActivity(i);

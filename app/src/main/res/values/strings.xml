@@ -28,4 +28,25 @@
     <string name="account_id">Account ID:</string>
     <string name="account_description">Account Description:</string>
     <string name="account_number">Account Number:</string>
+    <string name="balance_type">Type:</string>
+    <string name="balance_value">Value: </string>
+    <string name="payee_id">Payee:</string>
+
+    <string name="txf_customer_id">Customer ID:</string>
+    <string name="txf_source_acc_id">Source Acct ID:</string>
+    <string name="txf_amount">Amount:</string>
+    <string name="txf_transaction_date">Transaction Date:</string>
+    <string name="txf_payment_type">Payment Type:</string>
+    <string name="txf_currency">Currency:</string>
+    <string name="txf_dest_acc_id">Destination Acct ID:</string>
+    <string name="txf_memo">Memo:</string>
+    <string name="txf_payee_description">Payee Description:</string>
+    <string name="txf_payee_id">Payee ID:</string>
+    <string name="txf_payee_type">Payee Type:</string>
+    <string name="txf_submit">Submit</string>
+
+    <string name="payment_method">Payment Method:</string>
+    <string name="bank_name">Bank Name Ext:</string>
+    <string name="last_payment_amount">Last Payment Amount:</string>
+    <string name="type">Type:</string>
 </resources>

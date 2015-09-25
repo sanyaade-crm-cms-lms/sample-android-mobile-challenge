@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.anypresence.APSetup;
+import com.anypresence.rails_droid.APFutureCallback;
 import com.anypresence.rails_droid.IAPFutureCallback;
+import com.anypresence.rails_droid.RemoteObject;
+import com.anypresence.sdk.callbacks.APCallback;
 import com.anypresence.rails_droid.RemoteRequest;
 import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount;
 import com.citi.ap.citiapp.CitiApplication;
@@ -64,16 +68,35 @@ public class AccountFragment extends Fragment{
         mConnectionProgressDialog = new ProgressDialog(getActivity(), R.style.ProgressTheme);
         mConnectionProgressDialog.setMessage(getString(R.string.please_wait));
         mConnectionProgressDialog.setCancelable(false);
-        Map<String,String> maps = new HashMap<>();
-        maps.put("Authorization", String.valueOf(CitiApplication.getInstance().getClient().getToken()));
-        RemoteRequest request = new RemoteRequest();
-        request.setContext(CitiApplication.getInstance().getClient());
-        request.setHeaders(maps);
-        request.setPath(CitiConstants.BACKEND_URL + "/" + CitiConstants.VERSION +  "/accounts");
-        request.setQuery(RetailBankingAccount.Scopes.ALL);
-        request.setRequestMethod("GET");
         mConnectionProgressDialog.show();
-        RetailBankingAccount.queryInBackground(request, RetailBankingAccount.class, callback);
+
+        Map<String,String> headers = new HashMap<>();
+        Map<String,String> params = new HashMap<>();
+        headers.put("Authorization", "Bearer " + CitiApplication.getInstance().getClient().getToken());
+        params.put("client_id", CitiApplication.getInstance().getClient().getPassword());
+
+        RemoteRequest request = new RemoteRequest();
+        request.setPath(CitiConstants.BACKEND_URL + "/" + CitiConstants.VERSION + "/accounts");
+        request.setRequestMethod("get");
+        request.setQuery(RetailBankingAccount.Scopes.ALL);
+        request.setHeaders(headers);
+        request.setParameters(params);
+        RetailBankingAccount.queryInBackground(request, RetailBankingAccount.class, new APCallback<List<RetailBankingAccount>>() {
+            @Override
+            public void finished(final List<RetailBankingAccount> accounts, Throwable err) {
+                if(err == null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mConnectionProgressDialog.dismiss();
+                            setupAccountView(accounts);
+                        }
+                    });
+                } else {
+                    Log.e(ACCOUNT_FRAGMENT_TAG, err.toString());
+                }
+            }
+        });
         return inflater.inflate(R.layout.fragment_account_list, container, false);
     }
     @Override
@@ -88,12 +111,16 @@ public class AccountFragment extends Fragment{
         adapter.setOnBalanceTransactionClickListener(new AccountAdapter.OnBalanceTransactionClickListener() {
             @Override
             public void onBalanceClicked(int position, RetailBankingAccount account) {
-                startActivity(new Intent(getActivity(), BalancesActivity.class));
+                Intent i = new Intent(getActivity(), BalancesActivity.class);
+                i.putExtra("account_id", account.getId());
+                startActivity(i);
             }
 
             @Override
             public void onTransactionClicked(int position, RetailBankingAccount account) {
-                startActivity(new Intent(getActivity(), TransactionsActivity.class));
+                Intent i = new Intent(getActivity(), TransactionsActivity.class);
+                i.putExtra("account_id", account.getId());
+                startActivity(i);
             }
         });
     }

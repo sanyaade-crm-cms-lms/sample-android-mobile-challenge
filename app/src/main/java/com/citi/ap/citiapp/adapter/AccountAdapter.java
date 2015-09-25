@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.citi.ap.citiapp.R;
-import com.citi.ap.citiapp.model.Account;
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.List;
 /**
  * Created by emi91_000 on 06/03/2015.
  */
-public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount>{
+public class AccountAdapter extends ArrayAdapter<RetailBankingAccount>{
     private OnBalanceTransactionClickListener onBalanceTransactionClickListener;
-    public AccountAdapter(Context context, List<com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount> listAccounts) {
+    public AccountAdapter(Context context, List<RetailBankingAccount> listAccounts) {
         super(context, R.layout.item_account);
         addAll(listAccounts);
     }
@@ -43,7 +43,7 @@ public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi_mobile
             } else {
                 holder = (AccountHolder) view.getTag();
             }
-            final com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccount account = getItem(position);
+            final RetailBankingAccount account = getItem(position);
             holder.balanceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,7 +60,7 @@ public class AccountAdapter extends ArrayAdapter<com.anypresence.sdk.citi_mobile
             });
             holder.id.setText(account.getId().toString());
             holder.accountDesc.setText(account.getProductDescription());
-            holder.accountNumber.setText(account.getDisplayAcctNo().toString());
+            holder.accountNumber.setText(account.getDisplayAcctNo());
             return view;
         }
 

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.anypresence.sdk.citi_mobile_challenge.models.RetailBankingAccountBalance;
 import com.citi.ap.citiapp.R;
 import com.citi.ap.citiapp.model.Balance;
 
@@ -18,15 +19,10 @@ import java.util.List;
 /**
  * Created by emi91_000 on 06/03/2015.
  */
-public class BalanceAdapter extends ArrayAdapter<Balance>{
-    public BalanceAdapter(Context context) {
+public class BalanceAdapter extends ArrayAdapter<RetailBankingAccountBalance>{
+    public BalanceAdapter(Context context, List<RetailBankingAccountBalance> listBalances) {
         super(context, R.layout.item_balance);
-        List<Balance> balances=new ArrayList<Balance>();
-        for (Integer i = 0; i < 11; i++) {
-            balances.add(new Balance("balance"+i));
-        }
-
-        addAll(balances);
+        addAll(listBalances);
     }
 
         @Override
@@ -42,8 +38,8 @@ public class BalanceAdapter extends ArrayAdapter<Balance>{
             } else {
                 holder = (BalanceHolder) view.getTag();
             }
-            final Balance balance = getItem(position);
-            holder.value.setText(balance.getValue());
+            final RetailBankingAccountBalance balance = getItem(position);
+            holder.value.setText(balance.getValue().toString());
             return view;
         }
 
